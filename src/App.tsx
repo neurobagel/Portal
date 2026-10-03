@@ -9,10 +9,19 @@ import { COMMUNITIES, Community } from './data/communities';
 function App() {
   const [selectedCommunity, setSelectedCommunity] = useState<Community | null>(null);
   const [hoveredCommunity, setHoveredCommunity] = useState<Community | null>(null);
+  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'prospective'>('active');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [resetKey, setResetKey] = useState(0);
 
   const scrollToMap = () => {
     const el = document.getElementById('map-section');
     if (el) el.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleReset = () => {
+    setSearchQuery('');
+    setFilterStatus('active');
+    setResetKey((prev) => prev + 1);
   };
 
   return (
@@ -25,24 +34,32 @@ function App() {
         <Hero onExploreClick={scrollToMap} />
 
         {/* Global Network Map Section */}
-        <div className="relative mx-auto w-full max-w-[1536px] px-3 pb-16 pt-6 sm:px-6 lg:px-8">
-          {/* Partner & Prospective Community Cells (GAAIN style) */}
+        <div className="relative mx-auto w-full max-w-[1536px] px-3 pb-12 pt-3 sm:px-6 lg:px-8">
+          {/* Partner & Prospective Community Cells with Unified Controls */}
           <section id="communities-section">
             <CommunityGrid
               communities={COMMUNITIES}
               hoveredCommunityId={hoveredCommunity?.id}
               onHoverCommunity={(community) => setHoveredCommunity(community)}
               onSelectCommunity={(community) => setSelectedCommunity(community)}
+              searchQuery={searchQuery}
+              onSearchQueryChange={setSearchQuery}
+              filterStatus={filterStatus}
+              onFilterStatusChange={setFilterStatus}
+              onReset={handleReset}
             />
           </section>
 
           {/* Global Network Map Section */}
-          <section id="map-section" className="scroll-mt-6 pt-2">
+          <section id="map-section" className="scroll-mt-4 pt-1">
             <NetworkMap
               communities={COMMUNITIES}
               selectedCommunityId={selectedCommunity?.id}
               hoveredCommunityId={hoveredCommunity?.id}
               onSelectCommunity={(community) => setSelectedCommunity(community)}
+              searchQuery={searchQuery}
+              filterStatus={filterStatus}
+              resetKey={resetKey}
             />
           </section>
         </div>

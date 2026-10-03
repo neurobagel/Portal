@@ -3,7 +3,6 @@ describe('Neurobagel Portal Entrypoint', () => {
     cy.visit('http://localhost:5173');
 
     // Verify Brand & Hero
-    cy.contains('Neurobagel Portal').should('be.visible');
     cy.contains('Neurobagel communities explorer').should('be.visible');
     cy.contains('Connect a Node').should(
       'have.attr',
@@ -13,13 +12,13 @@ describe('Neurobagel Portal Entrypoint', () => {
 
     // Verify Community Cells Grid (above map)
     cy.get('[data-cy="community-grid"]').should('be.visible');
+    cy.contains('Federated Communities & Working Groups').should('be.visible');
     cy.contains('ENIGMA-PD').should('be.visible');
     cy.contains('Dutch NPC').should('be.visible');
     cy.contains('ASMQ').should('be.visible');
     cy.contains('SCAND').should('be.visible');
 
-    // Verify Global Federated Footprint Map Section
-    cy.contains('Global Federated Footprint').should('be.visible');
+    // Verify Leaflet Map Container
     cy.get('.leaflet-container').should('be.visible');
 
     // Test Map Search Filtering

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
-import { MapPin, ExternalLink, Layers, Sparkles, Info, RotateCcw, Search, X } from 'lucide-react';
+import { MapPin, ExternalLink, Sparkles, Info } from 'lucide-react';
 import { Community } from '../data/communities';
 
 interface NetworkMapProps {
@@ -9,6 +9,9 @@ interface NetworkMapProps {
   onSelectCommunity: (community: Community) => void;
   selectedCommunityId?: string | null;
   hoveredCommunityId?: string | null;
+  searchQuery?: string;
+  filterStatus?: 'all' | 'active' | 'prospective';
+  resetKey?: number;
 }
 
 export const NetworkMap: React.FC<NetworkMapProps> = ({
@@ -16,14 +19,21 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({
   onSelectCommunity,
   selectedCommunityId,
   hoveredCommunityId,
+  searchQuery = '',
+  filterStatus = 'all',
+  resetKey = 0,
 }) => {
   const mapContainerRef = useRef<HTMLDivElement>(null);
   const mapInstanceRef = useRef<L.Map | null>(null);
   const markersLayerRef = useRef<L.LayerGroup | null>(null);
 
   const [selectedPin, setSelectedPin] = useState<Community | null>(communities[0] || null);
-  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'prospective'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    if (resetKey > 0 && mapInstanceRef.current) {
+      mapInstanceRef.current.setView([25, 0], 2);
+    }
+  }, [resetKey]);
 
   const filteredCommunities = useMemo(() => {
     return communities.filter((c) => {
@@ -198,104 +208,8 @@ export const NetworkMap: React.FC<NetworkMapProps> = ({
     });
   }, [filteredCommunities, selectedPin]);
 
-  const handleResetView = () => {
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.setView([25, 0], 2);
-    }
-  };
-
   return (
-    <div className="relative w-full">
-      {/* Map Header & Controls */}
-      <div className="mb-4 flex flex-col gap-4 border-b border-slate-200 px-1 pb-4 xl:flex-row xl:items-center xl:justify-between">
-        <div>
-          <div className="flex items-center space-x-2">
-            <Layers className="h-5 w-5 text-[#7e56c2]" />
-            <h2 className="text-lg font-bold tracking-tight text-slate-900 sm:text-xl">
-              Global Federated Footprint
-            </h2>
-          </div>
-          <p className="text-xs text-slate-600">
-            Geographic distribution of sovereign nodes and active consortia across the globe
-          </p>
-        </div>
-
-        {/* Search, Filter & Reset controls */}
-        <div className="flex flex-wrap items-center gap-2.5">
-          {/* Search bar */}
-          <div className="relative w-full flex-shrink-0 sm:w-64 md:w-72">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-              <Search className="h-3.5 w-3.5 text-slate-400" />
-            </div>
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search community, PI, country..."
-              className="box-border w-full rounded-lg border border-slate-300 bg-white py-1.5 pl-8 pr-7 text-xs text-slate-900 placeholder-slate-400 shadow-sm transition focus:border-[#7e56c2] focus:outline-none focus:ring-1 focus:ring-[#7e56c2]"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => setSearchQuery('')}
-                className="absolute inset-y-0 right-0 flex items-center pr-2 text-slate-400 hover:text-slate-700"
-                aria-label="Clear search"
-              >
-                <X className="h-3.5 w-3.5" />
-              </button>
-            )}
-          </div>
-
-          {/* Status filters */}
-          <div className="flex flex-shrink-0 rounded-lg border border-slate-200 bg-white p-0.5 text-xs shadow-sm">
-            <button
-              type="button"
-              onClick={() => setFilterStatus('all')}
-              className={`rounded-md px-3 py-1 font-medium transition ${
-                filterStatus === 'all'
-                  ? 'bg-[#7e56c2] text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              All ({communities.length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setFilterStatus('active')}
-              className={`rounded-md px-3 py-1 font-medium transition ${
-                filterStatus === 'active'
-                  ? 'bg-emerald-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Live Nodes ({communities.filter((c) => c.status === 'active').length})
-            </button>
-            <button
-              type="button"
-              onClick={() => setFilterStatus('prospective')}
-              className={`rounded-md px-3 py-1 font-medium transition ${
-                filterStatus === 'prospective'
-                  ? 'bg-amber-600 text-white shadow-sm'
-                  : 'text-slate-600 hover:text-slate-900'
-              }`}
-            >
-              Prospective ({communities.filter((c) => c.status !== 'active').length})
-            </button>
-          </div>
-
-          {/* Reset View button */}
-          <button
-            type="button"
-            onClick={handleResetView}
-            className="flex flex-shrink-0 items-center space-x-1 rounded-lg border border-slate-200 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 shadow-sm hover:bg-slate-100 hover:text-slate-900"
-            title="Reset to world view"
-          >
-            <RotateCcw className="h-3.5 w-3.5" />
-            <span className="hidden sm:inline">Reset View</span>
-          </button>
-        </div>
-      </div>
-
+    <div className="relative w-full" data-cy="network-map">
       {/* Immersive Leaflet Map Canvas Container */}
       <div className="relative aspect-[21/9] min-h-[540px] w-full overflow-hidden rounded-3xl sm:min-h-[600px] lg:min-h-[680px]">
         <div ref={mapContainerRef} className="immersive-map z-0 h-full w-full" />
