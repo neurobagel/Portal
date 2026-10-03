@@ -25,25 +25,27 @@ function App() {
         <Hero onExploreClick={scrollToMap} />
 
         {/* Global Network Map Section */}
-        <section
-          id="map-section"
-          className="relative mx-auto w-full max-w-[1536px] px-3 pb-16 pt-6 sm:px-6 lg:px-8"
-        >
+        <div className="relative mx-auto w-full max-w-[1536px] px-3 pb-16 pt-6 sm:px-6 lg:px-8">
           {/* Partner & Prospective Community Cells (GAAIN style) */}
-          <CommunityGrid
-            communities={COMMUNITIES}
-            hoveredCommunityId={hoveredCommunity?.id}
-            onHoverCommunity={(community) => setHoveredCommunity(community)}
-            onSelectCommunity={(community) => setSelectedCommunity(community)}
-          />
+          <section id="communities-section">
+            <CommunityGrid
+              communities={COMMUNITIES}
+              hoveredCommunityId={hoveredCommunity?.id}
+              onHoverCommunity={(community) => setHoveredCommunity(community)}
+              onSelectCommunity={(community) => setSelectedCommunity(community)}
+            />
+          </section>
 
-          <NetworkMap
-            communities={COMMUNITIES}
-            selectedCommunityId={selectedCommunity?.id}
-            hoveredCommunityId={hoveredCommunity?.id}
-            onSelectCommunity={(community) => setSelectedCommunity(community)}
-          />
-        </section>
+          {/* Global Network Map Section */}
+          <section id="map-section" className="scroll-mt-6 pt-2">
+            <NetworkMap
+              communities={COMMUNITIES}
+              selectedCommunityId={selectedCommunity?.id}
+              hoveredCommunityId={hoveredCommunity?.id}
+              onSelectCommunity={(community) => setSelectedCommunity(community)}
+            />
+          </section>
+        </div>
       </main>
 
       {/* Detail Modal */}
