@@ -190,9 +190,22 @@ export const CommunityModal: React.FC<CommunityModalProps> = ({ community, onClo
               >
                 <div className="flex items-center justify-between">
                   <div>
-                    <span className="text-sm font-semibold text-slate-900 dark:text-white">
-                      {coordinator.name}
-                    </span>
+                    {coordinator.url ? (
+                      <a
+                        href={coordinator.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm font-semibold text-slate-900 transition hover:text-[#7e56c2] dark:text-white dark:hover:text-[#a387d7]"
+                        title={`${coordinator.name} profile (opens in new tab)`}
+                      >
+                        <span>{coordinator.name}</span>
+                        <ExternalLink className="h-3 w-3 text-slate-400" />
+                      </a>
+                    ) : (
+                      <span className="text-sm font-semibold text-slate-900 dark:text-white">
+                        {coordinator.name}
+                      </span>
+                    )}
                     <span className="ml-2 text-xs text-slate-500 dark:text-slate-400">
                       • {coordinator.role}
                     </span>
