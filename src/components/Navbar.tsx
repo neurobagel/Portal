@@ -46,12 +46,12 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
                 component="div"
                 sx={{
                   fontWeight: 600,
-                  fontSize: { xs: '1.25rem', sm: '1.5rem' },
+                  fontSize: { xs: '1.15rem', sm: '1.35rem' },
                   color: '#1e293b',
                   lineHeight: 1.2,
                 }}
               >
-                Neurobagel Portal
+                Neurobagel communities explorer
               </Typography>
             </div>
           </div>
