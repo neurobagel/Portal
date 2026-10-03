@@ -92,7 +92,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onJoinClick }) => {
 
             <Button
               variant="contained"
-              href="https://neurobagel.org/user_guide/getting_started/"
+              href="https://neurobagel.org/user_guide/production_deployment/#making-your-node-publicly-discoverable"
               target="_blank"
               rel="noopener noreferrer"
               onClick={onJoinClick}

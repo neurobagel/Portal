@@ -8,7 +8,7 @@ describe('Neurobagel Portal Entrypoint', () => {
     cy.contains('Connect a Node').should(
       'have.attr',
       'href',
-      'https://neurobagel.org/user_guide/getting_started/'
+      'https://neurobagel.org/user_guide/production_deployment/#making-your-node-publicly-discoverable'
     );
 
     // Verify Community Cells Grid (above map)
