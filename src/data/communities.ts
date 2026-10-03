@@ -2,7 +2,6 @@ import logoNeurobagel from '../assets/logo.svg';
 import logoEnigmaPd from '../assets/adoption/enimgapd.png';
 import logoScand from '../assets/adoption/scand.svg';
 import logoAsmq from '../assets/adoption/asmq.png';
-import logoDutchNpc from '../assets/adoption/parkinson.svg';
 import logoNichy from '../assets/adoption/nichy.svg';
 import logoEnigmaAddiction from '../assets/adoption/enigma_addiction.svg';
 import logoNeuroAd from '../assets/adoption/neuro_ad.svg';
@@ -11,13 +10,30 @@ import logoTrr379 from '../assets/adoption/trr379.png';
 import logoEnigmaTremor from '../assets/adoption/enigma_tremor.svg';
 import logoOpenNeuro from '../assets/adoption/openneuro.svg';
 import logoObi from '../assets/adoption/obi.png';
+import logoDouglas from '../assets/adoption/douglas.png';
+import logoEbrains from '../assets/adoption/ebrains.svg';
+import logoIndi from '../assets/adoption/indi.png';
+import logoShanoir from '../assets/adoption/shanoir.png';
+import logoAnc from '../assets/adoption/anc.svg';
+import logoPublicNeuro from '../assets/adoption/publicneuro.png';
+import logoTosi from '../assets/adoption/tosi.png';
+import logoAumc from '../assets/adoption/aumc.png';
+import logoUmcg from '../assets/adoption/umcg.jpg';
+import logoRadboud from '../assets/adoption/radboud.svg';
+import logoMcgill from '../assets/adoption/mcgill.png';
+import logoCamh from '../assets/adoption/camh.png';
+import logoCervo from '../assets/adoption/cervo.png';
+import logoIusmm from '../assets/adoption/iusmm.png';
+import logoParkinsonNl from '../assets/adoption/parkinsonnl.svg';
 
 export type CommunityStatus = 'active' | 'onboarding' | 'prospective';
+export type CommunityType = 'public' | 'consortium';
 
 export interface Coordinator {
   name: string;
   role: string;
   affiliation: string;
+  url?: string;
   quote?: string;
   avatarUrl?: string;
 }
@@ -45,11 +61,12 @@ export interface Community {
   id: string;
   name: string;
   shortName: string;
-  piName: string;
+  piName?: string;
   logo: string;
   tagline: string;
   description: string;
   category: string;
+  communityType: CommunityType;
   portalUrl?: string;
   status: CommunityStatus;
   statusLabel?: string;
@@ -70,52 +87,40 @@ export const COMMUNITIES: Community[] = [
     id: 'neurobagel-central',
     name: 'Neurobagel Public Federation',
     shortName: 'Neurobagel',
-    piName: 'Dr. JB Poline',
+    piName: '',
     logo: logoNeurobagel,
     tagline: 'Global Open Science Neuroimaging Federation',
     description:
       'The central open federated search portal querying openly accessible neuroimaging repositories worldwide, adhering to BIDS and standardized clinical vocabularies.',
     category: 'Open Science Federation',
+    communityType: 'public',
     portalUrl: 'https://query.neurobagel.org',
     status: 'active',
     statusLabel: 'Live Query Portal',
     themeColor: '#7e56c2',
     themeAccent: 'from-[#7e56c2] to-purple-800',
-    countryCodes: ['CA', 'US', 'FR', 'AT', 'EU'],
+    countryCodes: [],
     coordinates: {
       lat: 45.5017,
       lng: -73.5673,
-      city: 'Montreal',
-      country: 'Canada & Global',
+      city: 'Global Federation',
+      country: 'Open Network',
     },
     stats: {
-      datasetsCount: 88,
-      subjectsCount: 22450,
+      datasetsCount: 1140,
+      subjectsCount: 69607,
       nodesCount: 8,
     },
-    coordinators: [
-      {
-        name: 'Dr. Sebastian Urchs',
-        role: 'Lead Architect & Investigator',
-        affiliation: 'McGill University / The Neuro (MNI)',
-        quote:
-          'Decentralized data discovery enables collaborative science while respecting institutional data governance.',
-      },
-      {
-        name: 'Prof. Jean-Baptiste Poline',
-        role: 'Co-Principal Investigator',
-        affiliation: 'McGill University & TOSI',
-      },
-    ],
+    coordinators: [],
     institutes: [
       'OpenNeuro',
-      'The Neuro (TOSI)',
-      'INDI Data-sharing Initiative',
-      'Austrian Neurocloud',
       'EBRAINS',
-      'Ontario Brain Institute',
+      'Austrian Neurocloud (ANC)',
+      'INDI Data-sharing Initiative',
       'Shanoir (INRIA / IRISA)',
       'PublicnEUro',
+      'Ontario Brain Institute',
+      'The Neuro (TOSI)',
     ],
     partnerOrgs: [
       {
@@ -124,9 +129,39 @@ export const COMMUNITIES: Community[] = [
         url: 'https://openneuro.org',
       },
       {
+        name: 'EBRAINS',
+        logo: logoEbrains,
+        url: 'https://ebrains.eu',
+      },
+      {
+        name: 'ANC',
+        logo: logoAnc,
+        url: 'https://anc.plus.ac.at',
+      },
+      {
+        name: 'INDI',
+        logo: logoIndi,
+        url: 'https://fcon_1000.projects.nitrc.org',
+      },
+      {
+        name: 'Shanoir',
+        logo: logoShanoir,
+        url: 'https://shanoir.irisa.fr',
+      },
+      {
+        name: 'PublicnEUro',
+        logo: logoPublicNeuro,
+        url: 'https://publicneuro.eu',
+      },
+      {
         name: 'Ontario Brain Institute',
         logo: logoObi,
         url: 'https://braininstitute.ca',
+      },
+      {
+        name: 'TOSI Neuro',
+        logo: logoTosi,
+        url: 'https://www.mcgill.ca/neuro/open-science',
       },
     ],
     domains: ['Open Science', 'Multimodal Neuroimaging', 'Brain Informatics', 'BIDS Standards'],
@@ -142,12 +177,13 @@ export const COMMUNITIES: Community[] = [
     description:
       "International working group harmonizing clinical, genetic, and neuroimaging data across dozens of patient cohorts globally to discover robust imaging biomarkers of Parkinson's progression.",
     category: 'Disease Consortium',
-    portalUrl: 'https://enigma.neurobagel.org',
+    communityType: 'consortium',
+    portalUrl: 'https://enigma.neurobagel.org/?node=All',
     status: 'active',
     statusLabel: 'Live Query Portal',
     themeColor: '#f59e0b',
     themeAccent: 'from-amber-500 to-orange-600',
-    countryCodes: ['NL', 'US', 'GB', 'IL'],
+    countryCodes: ['NL'],
     coordinates: {
       lat: 52.3676,
       lng: 4.9041,
@@ -155,32 +191,66 @@ export const COMMUNITIES: Community[] = [
       country: 'Netherlands',
     },
     stats: {
-      datasetsCount: 19,
-      subjectsCount: 4620,
-      nodesCount: 5,
+      datasetsCount: 12,
+      subjectsCount: 2151,
+      nodesCount: 4,
     },
     coordinators: [
       {
-        name: 'Dr. Eva Alonso-Albiñana',
-        role: 'Working Group Coordinator',
-        affiliation: 'Amsterdam UMC',
-        quote:
-          'Neurobagel allows our international cohort sites to keep patient records safe on-premise while allowing researchers to discover eligible cross-site samples.',
-      },
-      {
         name: 'Prof. Ysbrand van der Werf',
         role: 'Principal Investigator',
-        affiliation: 'Amsterdam UMC / Netherlands Institute for Neuroscience',
+        affiliation: 'Amsterdam UMC / NIN',
+        url: 'https://www.amsterdamumc.org/en/research/researchers/ysbrand-van-der-werf',
         quote:
           'Early adoption of federated querying has accelerated how ENIGMA cohorts identify matched longitudinal cohorts.',
       },
+      {
+        name: 'Prof. Paul M. Thompson',
+        role: 'Principal Investigator',
+        affiliation: 'USC Keck School of Medicine',
+        url: 'https://keck.usc.edu/faculty-search/paul-m-thompson/',
+      },
+      {
+        name: 'Prof. Neda Jahanshad',
+        role: 'Working Group Lead',
+        affiliation: 'USC Keck School of Medicine',
+        url: 'https://keck.usc.edu/faculty-search/neda-jahanshad/',
+      },
+      {
+        name: 'Eva van Heese',
+        role: 'Research Coordinator',
+        affiliation: 'Amsterdam UMC',
+        url: 'https://www.amsterdamumc.org/en/research/researchers/eva-van-heese',
+      },
+      {
+        name: 'Emile d’Angremont',
+        role: 'Data Lead',
+        affiliation: 'Amsterdam UMC',
+        url: 'https://www.amsterdamumc.org/en/research/researchers/emile-dangremont',
+      },
     ],
-    institutes: [
-      'Amsterdam University Medical Centers',
-      'University of California, San Francisco',
-      "King's College London",
-      'Tel Aviv Sourasky Medical Center',
-      'Radboudumc',
+    institutes: ['Amsterdam UMC', 'Groningen UMC', 'Radboud UMC', 'McGill University'],
+    partnerOrgs: [
+      {
+        name: 'Amsterdam UMC',
+        logo: logoAumc,
+        url: 'https://www.amsterdamumc.org',
+      },
+      {
+        name: 'Groningen UMC',
+        logo: logoUmcg,
+        url: 'https://www.umcg.nl',
+      },
+      {
+        name: 'Radboud UMC',
+        logo: logoRadboud,
+        url: 'https://www.radboudumc.nl',
+      },
+      {
+        name: 'McGill',
+        logo: logoMcgill,
+        url: 'https://www.mcgill.ca',
+      },
     ],
     domains: [
       'Movement Disorders',
@@ -192,65 +262,69 @@ export const COMMUNITIES: Community[] = [
   },
   {
     id: 'scand',
-    name: 'Scandinavian Neuroimaging & Dementia Network',
+    name: 'Schizophrenia Canadian Neuroimaging Database (SCanD)',
     shortName: 'SCAND',
-    piName: 'Prof. Henrik Zetterberg',
+    piName: 'Dr. Erin Dickie',
     logo: logoScand,
-    tagline: 'Cross-Nordic Dementia Cohort Federation',
+    tagline: 'Canadian Schizophrenia Neuroimaging Database',
     description:
-      'Collaborative Nordic research alliance connecting memory clinics and research institutes across Sweden, Norway, and Denmark to harmonize neurodegeneration datasets.',
-    category: 'Regional Consortium',
-    portalUrl: 'https://scand.neurobagel.org/',
+      'Canadian multi-center research alliance connecting psychiatric and mental health institutions to harmonize and federate schizophrenia neuroimaging datasets across Canada.',
+    category: 'National Consortium',
+    communityType: 'consortium',
+    portalUrl: 'https://scand.neurobagel.org/?node=All',
     status: 'active',
     statusLabel: 'Live Query Portal',
     themeColor: '#10b981',
     themeAccent: 'from-emerald-500 to-teal-700',
-    countryCodes: ['SE', 'NO', 'DK'],
+    countryCodes: ['CA'],
     coordinates: {
-      lat: 59.3293,
-      lng: 18.0686,
-      city: 'Stockholm',
-      country: 'Sweden',
+      lat: 43.6532,
+      lng: -79.3832,
+      city: 'Toronto',
+      country: 'Canada',
     },
     stats: {
-      datasetsCount: 14,
-      subjectsCount: 3480,
-      nodesCount: 4,
+      datasetsCount: 7,
+      subjectsCount: 1190,
+      nodesCount: 1,
     },
     coordinators: [
       {
-        name: 'Prof. Henrik Zetterberg (Advisory)',
-        role: 'Senior Scientific Advisor',
-        affiliation: 'University of Gothenburg / Karolinska',
+        name: 'Dr. Erin Dickie',
+        role: 'Principal Investigator',
+        affiliation: 'Centre for Addiction and Mental Health (CAMH) / University of Toronto',
+        url: 'https://www.camh.ca/en/science-and-research/science-and-research-staff-directory/erindickie',
       },
       {
-        name: 'Dr. Linnea Lindström',
-        role: 'Federation Lead',
-        affiliation: 'Karolinska Institutet',
-        quote:
-          'Nordic health data regulations require data to reside within borders. Neurobagel gives us compliant federation across borders.',
+        name: 'Dr. Colin Hawco',
+        role: 'Co-Investigator',
+        affiliation: 'Centre for Addiction and Mental Health (CAMH) / University of Toronto',
+        url: 'https://www.camh.ca/en/science-and-research/science-and-research-staff-directory/colinhawco',
       },
     ],
-    institutes: [
-      'Karolinska Institutet',
-      'University of Oslo',
-      'Lund University',
-      'Aarhus University Hospital',
+    institutes: ['Centre for Addiction and Mental Health (CAMH)', 'University of Toronto'],
+    partnerOrgs: [
+      {
+        name: 'CAMH',
+        logo: logoCamh,
+        url: 'https://www.camh.ca',
+      },
     ],
-    domains: ["Alzheimer's Disease", 'Dementia', 'PET / Structural MRI', 'Nordic Cohorts'],
-    bannerBadge: 'Cross-Border',
+    domains: ['Schizophrenia', 'Psychiatry', 'Brain Informatics', 'Canadian Cohorts'],
+    bannerBadge: 'Canadian Hub',
   },
   {
     id: 'asmq',
-    name: 'Alliance Santé Mentale Québec',
+    name: 'Alliance en santé mentale du Québec (ASMQ)',
     shortName: 'ASMQ',
-    piName: 'Dr. Mallar Chakravarty',
+    piName: 'Dr. Vincent Taschereau-Dumouchel',
     logo: logoAsmq,
     tagline: 'Quebec Mental Health Neuroinformatics Infrastructure',
     description:
       'FRQS-supported strategic platform connecting psychiatry departments, biobanks, and imaging facilities across Quebec to empower psychiatric cohort discovery with strict patient confidentiality.',
     category: 'Provincial Platform',
-    portalUrl: 'https://neurobagel-alliancefrqs.douglasneuroinformatics.ca',
+    communityType: 'consortium',
+    portalUrl: 'https://neurobagel-alliancefrqs.douglasneuroinformatics.ca/?node=All',
     status: 'active',
     statusLabel: 'Live Query Portal',
     themeColor: '#8b5cf6',
@@ -263,91 +337,126 @@ export const COMMUNITIES: Community[] = [
       country: 'Canada (Quebec)',
     },
     stats: {
-      datasetsCount: 11,
-      subjectsCount: 3120,
+      datasetsCount: 5,
+      subjectsCount: 2849,
       nodesCount: 3,
     },
     coordinators: [
       {
-        name: 'Dr. Mallar Chakravarty',
-        role: 'Scientific Director',
-        affiliation: 'Douglas Research Centre / McGill University',
-        quote:
-          'Local data sovereignty is essential when dealing with sensitive psychiatric health records. Neurobagel solves this elegantly.',
+        name: 'Dr. Vincent Taschereau-Dumouchel',
+        role: 'Scientific Director & Co-Chair',
+        affiliation: 'Université de Montréal',
+        url: 'https://recherche.umontreal.ca/english/our-researchers/professors-directory/researcher/is/in34773/',
       },
       {
-        name: 'Geneviève Blais',
+        name: 'Cécile Le Page',
         role: 'Data Platform Coordinator',
-        affiliation: 'FRQS Alliance Santé Mentale',
+        affiliation: 'McGill University / Douglas Research Centre',
+        url: 'https://www.linkedin.com/in/c%C3%A9cile-le-page-2787ba25/',
       },
     ],
-    institutes: [
-      'Douglas Mental Health University Institute',
-      'McGill University Dept. of Psychiatry',
-      'CHU Sainte-Justine',
-      "Centre de Recherche de l'Institut Universitaire de Gériatrie de Montréal (CRIUGM)",
+    institutes: ['Douglas Research Centre', 'CERVO Research Centre', 'IUSMM Research Centre'],
+    partnerOrgs: [
+      {
+        name: 'Douglas Research Centre',
+        logo: logoDouglas,
+        url: 'https://douglas.research.mcgill.ca',
+      },
+      {
+        name: 'CERVO Research Centre',
+        logo: logoCervo,
+        url: 'https://cervo.ulaval.ca',
+      },
+      {
+        name: 'IUSMM Research Centre',
+        logo: logoIusmm,
+        url: 'https://criusmm.ciusss-estmtl.gouv.qc.ca',
+      },
     ],
     domains: ['Psychiatry', 'Mood & Psychosis', 'Clinical Biobanking', 'Quebec Health Governance'],
     bannerBadge: 'FRQS Network',
   },
   {
     id: 'dutch-npc',
-    name: 'Dutch National Parkinson Coalition',
+    name: 'Netherlands Parkinson Cohort (NPC)',
     shortName: 'Dutch NPC',
-    piName: 'Prof. Bas Bloem',
-    logo: logoDutchNpc,
-    tagline: 'Netherlands National Cohort Federation',
+    piName: "Dr. Emile d'Angremont",
+    logo: logoParkinsonNl,
+    tagline: 'Nationwide Dutch Parkinson Research Federation',
     description:
       'Nationwide consortium bringing together major Dutch academic medical centers to federate patient registries, wearables, and deep brain imaging data.',
     category: 'National Coalition',
-    portalUrl: 'https://query.neurobagel.org',
+    communityType: 'consortium',
+    portalUrl: 'https://npc.neurobagel.org/',
     status: 'active',
     statusLabel: 'Live Query Portal',
     themeColor: '#f97316',
     themeAccent: 'from-orange-500 to-red-600',
     countryCodes: ['NL'],
     coordinates: {
-      lat: 51.8426,
-      lng: 5.8596,
-      city: 'Nijmegen',
+      lat: 52.3676,
+      lng: 4.9041,
+      city: 'Amsterdam / Nijmegen',
       country: 'Netherlands',
     },
     stats: {
-      datasetsCount: 8,
-      subjectsCount: 2190,
-      nodesCount: 3,
+      datasetsCount: 2,
+      subjectsCount: 691,
+      nodesCount: 2,
     },
     coordinators: [
       {
-        name: 'Prof. Bas Bloem',
-        role: 'Clinical Lead & Investigator',
-        affiliation: 'Radboud University Medical Center / ParkinsonNet',
+        name: "Dr. Emile d'Angremont",
+        role: 'Coordinator & Lead',
+        affiliation: 'Amsterdam UMC',
+        url: 'https://www.amsterdamumc.org/en/research/researchers/emile-dangremont',
       },
       {
-        name: 'Dr. Maarten de Vos',
-        role: 'Informatics Coordinator',
-        affiliation: 'Amsterdam UMC / Radboudumc',
+        name: 'Prof. Wilma van de Berg',
+        role: 'Principal Investigator',
+        affiliation: 'Amsterdam UMC',
+        url: 'https://www.amsterdamumc.org/en/research/researchers/wilma-van-de-berg',
+      },
+      {
+        name: 'Prof. Teus van Laar',
+        role: 'Investigator',
+        affiliation: 'UMC Groningen',
+        url: 'https://www.michaeljfox.org/researcher/teus-van-laar-md-phd',
+      },
+      {
+        name: 'Dr. Chris Vriend',
+        role: 'Investigator',
+        affiliation: 'Amsterdam UMC',
+        url: 'https://www.amsterdamumc.org/en/research/researchers/chris-vriend',
       },
     ],
     institutes: [
-      'Radboud University Medical Center',
-      'Erasmus University Medical Center Rotterdam',
+      'DUtch PARkinson Cohort (DUPARC)',
+      'Personalized Parkinson Project (PPP)',
       'Amsterdam UMC',
-      'ParkinsonNet Research Network',
+      'Radboud University Medical Center',
+    ],
+    partnerOrgs: [
+      {
+        name: 'ParkinsonNL',
+        logo: logoParkinsonNl,
+        url: 'https://www.parkinsonnederland.nl',
+      },
     ],
     domains: ['ParkinsonNet', 'Digital Biomarkers', 'Clinical Registries', 'Multi-center Trials'],
     bannerBadge: 'National Hub',
   },
   {
     id: 'trr379',
-    name: 'TRR379 Affective Disorders CRC',
+    name: 'TRR379 (Transregional Collaborative Research Center 379)',
     shortName: 'TRR379',
-    piName: 'Prof. Ute Habel',
+    piName: 'Prof. Michael Hanke & Prof. Andreas Meyer-Lindenberg',
     logo: logoTrr379,
     tagline: 'Collaborative Research Center for Affective Disorders',
     description:
       'German Research Foundation (DFG) Transregio consortium investigating the neurobiology of phenotypic impairments in affective disorders across multiple university clinics.',
     category: 'Academic Research Center',
+    communityType: 'consortium',
     status: 'onboarding',
     statusLabel: 'Onboarding Nodes',
     themeColor: '#06b6d4',
@@ -356,7 +465,7 @@ export const COMMUNITIES: Community[] = [
     coordinates: {
       lat: 50.7753,
       lng: 6.0839,
-      city: 'Aachen / Frankfurt',
+      city: 'Aachen / Frankfurt / Jülich',
       country: 'Germany',
     },
     stats: {
@@ -366,14 +475,16 @@ export const COMMUNITIES: Community[] = [
     },
     coordinators: [
       {
-        name: 'Prof. Ute Habel',
-        role: 'Speaker & Principal Investigator',
-        affiliation: 'RWTH Aachen University',
+        name: 'Prof. Michael Hanke',
+        role: 'Informatics Lead & PI',
+        affiliation: 'Forschungszentrum Jülich / Heinrich Heine University Düsseldorf',
+        url: 'https://www.trr379.de/contributors/michael-hanke/',
       },
       {
-        name: 'Dr. Frank Schneider',
-        role: 'Informatics Workgroup Lead',
-        affiliation: 'Philipps-Universität Marburg',
+        name: 'Prof. Andreas Meyer-Lindenberg',
+        role: 'Speaker & PI',
+        affiliation: 'Central Institute of Mental Health Mannheim',
+        url: 'https://www.trr379.de/contributors/andreas-meyer-lindenberg/',
       },
     ],
     institutes: [
@@ -400,6 +511,7 @@ export const COMMUNITIES: Community[] = [
     description:
       'Emerging consortium uniting Chilean medical centers and research universities to establish harmonized brain data sharing and federated queries across South America.',
     category: 'Regional Initiative',
+    communityType: 'consortium',
     status: 'prospective',
     statusLabel: 'Prospective Community',
     themeColor: '#ec4899',
@@ -434,13 +546,14 @@ export const COMMUNITIES: Community[] = [
   {
     id: 'enigma-addiction',
     name: 'ENIGMA-Addiction Working Group',
-    shortName: 'ENIGMA-Addiction (?)',
+    shortName: 'ENIGMA-Addiction',
     piName: 'Prof. Hugh Garavan',
     logo: logoEnigmaAddiction,
     tagline: 'Global Consortium on Substance Use Disorders',
     description:
       'Worldwide effort pooling structural and functional brain MRI from thousands of individuals with alcohol, nicotine, cannabis, and opioid dependencies across 30+ sites.',
     category: 'Disease Consortium',
+    communityType: 'consortium',
     status: 'prospective',
     statusLabel: 'Prospective Community',
     themeColor: '#e11d48',
@@ -485,24 +598,25 @@ export const COMMUNITIES: Community[] = [
   },
   {
     id: 'neuro-ad',
-    name: 'NEURO-AD Collaborative Platform',
+    name: 'NEURO-AD (NEURO Alzheimer’s Disease)',
     shortName: 'NEURO-AD',
-    piName: 'Dr. Claire Delacour',
+    piName: 'Dr. Baptiste Couvy-Duchesne',
     logo: logoNeuroAd,
-    tagline: 'European Biomarker & Preclinical AD Network',
+    tagline: 'Australian Biomarker & Preclinical AD Network',
     description:
-      "European multi-cohort initiative standardizing early cognitive biomarker discovery, amyloid/tau PET, and CSF measures in preclinical Alzheimer's populations.",
+      "Collaborative multi-cohort initiative standardizing early cognitive biomarker discovery, amyloid/tau PET, and CSF measures in preclinical Alzheimer's populations.",
     category: 'Disease Consortium',
+    communityType: 'consortium',
     status: 'prospective',
     statusLabel: 'Prospective Community',
     themeColor: '#6366f1',
     themeAccent: 'from-indigo-500 to-violet-700',
-    countryCodes: ['FR', 'CH', 'DE'],
+    countryCodes: ['AU'],
     coordinates: {
-      lat: 48.8566,
-      lng: 2.3522,
-      city: 'Paris',
-      country: 'France / Switzerland / Germany',
+      lat: -27.4698,
+      lng: 153.0251,
+      city: 'Brisbane',
+      country: 'Australia',
     },
     stats: {
       datasetsCount: 9,
@@ -511,15 +625,16 @@ export const COMMUNITIES: Community[] = [
     },
     coordinators: [
       {
-        name: 'Dr. Claire Delacour',
-        role: 'Steering Committee Lead',
-        affiliation: 'INSERM / Paris Brain Institute (ICM)',
+        name: 'Dr. Baptiste Couvy-Duchesne',
+        role: 'Principal Investigator',
+        affiliation: 'University of Queensland / Paris Brain Institute',
+        url: 'https://parisbraininstitute.org/collaborators/couvy-duchesne-baptiste',
       },
     ],
     institutes: [
+      'University of Queensland',
       'Paris Brain Institute (ICM)',
-      'Hôpitaux Universitaires de Genève',
-      'Charité - Universitätsmedizin Berlin',
+      'Queensland Brain Institute',
     ],
     domains: [
       "Preclinical Alzheimer's",
@@ -527,18 +642,19 @@ export const COMMUNITIES: Community[] = [
       'Cognitive Resilience',
       'Multimodal Biomarkers',
     ],
-    bannerBadge: 'European Consortium',
+    bannerBadge: 'Australia Consortium',
   },
   {
     id: 'mnd-network',
-    name: 'MND Translational Research Network',
-    shortName: 'MND Network (Australia)',
-    piName: 'Prof. Matthew Kiernan',
+    name: 'MND Network (Motor Neuron Disease Network)',
+    shortName: 'MND Network',
+    piName: 'Dr. Sicong Tu & Dr. Thomas Shaw',
     logo: logoMnd,
     tagline: 'Australian Motor Neuron Disease Cohort Infrastructure',
     description:
       'Federated data linkage system standardizing longitudinal motor neuron disease / ALS clinical registries, imaging, and biofluid biobanking across Australian states.',
     category: 'National Network',
+    communityType: 'consortium',
     status: 'prospective',
     statusLabel: 'Prospective Community',
     themeColor: '#14b8a6',
@@ -547,7 +663,7 @@ export const COMMUNITIES: Community[] = [
     coordinates: {
       lat: -33.8688,
       lng: 151.2093,
-      city: 'Sydney',
+      city: 'Sydney / Brisbane',
       country: 'Australia',
     },
     stats: {
@@ -557,9 +673,16 @@ export const COMMUNITIES: Community[] = [
     },
     coordinators: [
       {
-        name: 'Prof. Matthew Kiernan',
-        role: 'Consortium Chair',
-        affiliation: 'Brain and Mind Centre, University of Sydney',
+        name: 'Dr. Sicong Tu',
+        role: 'Consortium Co-Chair',
+        affiliation: 'University of Sydney',
+        url: 'https://profiles.sydney.edu.au/sicong.tu',
+      },
+      {
+        name: 'Dr. Thomas Shaw',
+        role: 'Consortium Co-Chair',
+        affiliation: 'University of Queensland',
+        url: 'https://about.uq.edu.au/experts/30967',
       },
     ],
     institutes: [
@@ -578,24 +701,25 @@ export const COMMUNITIES: Community[] = [
   },
   {
     id: 'enigma-tremor',
-    name: 'ENIGMA-Tremor Consortium',
+    name: 'ENIGMA-Tremor Working Group',
     shortName: 'ENIGMA-Tremor',
-    piName: 'Dr. Alfonso Fasano',
+    piName: 'Dr. Max Laansma',
     logo: logoEnigmaTremor,
     tagline: 'Worldwide Working Group on Essential & Dystonic Tremor',
     description:
       'Multi-site consortium pooling high-resolution MRI and deep phenotyping to investigate the cerebello-thalamo-cortical circuit dysfunctions underlying essential and dystonic tremors.',
     category: 'Disease Consortium',
+    communityType: 'consortium',
     status: 'prospective',
     statusLabel: 'Prospective Community',
     themeColor: '#a855f7',
     themeAccent: 'from-purple-500 to-fuchsia-600',
-    countryCodes: ['CA', 'US', 'GB'],
+    countryCodes: ['NL'],
     coordinates: {
-      lat: 43.6532,
-      lng: -79.3832,
-      city: 'Toronto & International',
-      country: 'Canada / USA / UK',
+      lat: 52.3676,
+      lng: 4.9041,
+      city: 'Amsterdam',
+      country: 'Netherlands',
     },
     stats: {
       datasetsCount: 5,
@@ -604,14 +728,15 @@ export const COMMUNITIES: Community[] = [
     },
     coordinators: [
       {
-        name: 'Dr. Alfonso Fasano',
-        role: 'Working Group Co-Chair',
-        affiliation: 'University of Toronto / Krembil Brain Institute',
+        name: 'Dr. Max Laansma',
+        role: 'Working Group Chair',
+        affiliation: 'Amsterdam UMC',
+        url: 'https://pure.amsterdamumc.nl/en/persons/max-laansma/',
       },
     ],
     institutes: [
+      'Amsterdam UMC',
       'Krembil Brain Institute / University Health Network',
-      'Yale University School of Medicine',
       'University College London (UCL)',
     ],
     domains: ['Essential Tremor', 'Cerebellar Networks', 'Dystonia', 'High-field MRI'],
@@ -627,10 +752,12 @@ export interface NetworkAggregateStats {
   activePortalsCount: number;
   prospectiveCommunitiesCount: number;
   countriesCount: number;
+  institutesCount: number;
 }
 
 export function getNetworkAggregateStats(): NetworkAggregateStats {
   const allCountries = new Set<string>();
+  const allInstitutes = new Set<string>();
   let totalSubjects = 0;
   let totalDatasets = 0;
   let totalNodes = 0;
@@ -642,6 +769,7 @@ export function getNetworkAggregateStats(): NetworkAggregateStats {
     totalDatasets += c.stats.datasetsCount;
     totalNodes += c.stats.nodesCount;
     c.countryCodes.forEach((code) => allCountries.add(code));
+    c.institutes.forEach((inst) => allInstitutes.add(inst));
 
     if (c.status === 'active') {
       activePortalsCount += 1;
@@ -658,6 +786,7 @@ export function getNetworkAggregateStats(): NetworkAggregateStats {
     activePortalsCount,
     prospectiveCommunitiesCount,
     countriesCount: allCountries.size,
+    institutesCount: allInstitutes.size,
   };
 }
 
@@ -677,4 +806,5 @@ export const COUNTRY_NAMES: Record<string, { name: string; flag: string }> = {
   AU: { name: 'Australia', flag: '🇦🇺' },
   AT: { name: 'Austria', flag: '🇦🇹' },
   EU: { name: 'European Union', flag: '🇪🇺' },
+  INTL: { name: 'International', flag: '🌐' },
 };
